@@ -89,8 +89,10 @@ def make_file_title(info: ManuscriptInfo) -> str:
     return fn
 
 # Rename manuscript file based on content.
-def name_pdf(fn: str):
-    search_string = extract_search_string(fn)
+def name_pdf(fn: str, search_string: str | None = None):
+    if search_string == None:
+        search_string = extract_search_string(fn)
+    
     info = find_info(search_string)
     if info == None:
         print("Could not find metadata for PDF. Exiting.")
@@ -117,4 +119,13 @@ def filter_ascii(s: str) -> str:
 
 ### END ASCII UTILS ###
 
-name_pdf(argv[1])
+if __name__ == '__main__':
+    if len(argv) < 2:
+        print("Usage: [file_name] [search_string:optional]")
+        print("Please provide a PDF file name as the first argument.")
+        print("Optionally, provide a search string for finding the metadata.")
+        exit(1)
+
+    fn = argv[1]
+    search_string = argv[2] if len(argv) >= 3 else None
+    name_pdf(fn, search_string)
