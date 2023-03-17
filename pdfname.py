@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 from typing import NamedTuple
 from os import path, rename
 from sys import argv
+import string
 
 class ManuscriptInfo(NamedTuple):
     authors: list[str]
@@ -85,7 +86,7 @@ def make_file_title(info: ManuscriptInfo) -> str:
 
     # Append first two words of title.
     tokens = info.title.split(" ")[:2]
-    tokens = map(filter_ascii, tokens)
+    tokens = map(filter_alphanumeric, tokens)
     tokens = map(lambda x: x.capitalize(), tokens)
     fn += ''.join(tokens)
     return fn
@@ -116,8 +117,9 @@ def ascii_encodable(s: str) -> bool:
         return False
     return True
 
-def filter_ascii(s: str) -> str:
-    return s.encode('ascii', errors='ignore').decode()
+def filter_alphanumeric(s: str) -> str:
+    alphanumeric = string.digits + string.ascii_letters
+    return ''.join(filter(lambda x: x in alphanumeric, s))
 
 ### END ASCII UTILS ###
 
