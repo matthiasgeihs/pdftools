@@ -37,7 +37,7 @@ def find_info(search_string: str) -> ManuscriptInfo | None:
     contents = urllib.request.urlopen(f"https://dblp.org/search/publ/api?q={qry}").read()
     root = ET.fromstring(contents)
     hits = root.find("hits")
-    if hits == None:
+    if hits == None or len(hits) == 0:
         return None
     info = hits[0].find("info")
     if info == None:
