@@ -13,8 +13,9 @@ This outputs `file_cropped.pdf`.
 
 ## pdfname
 `pdfname` reads a research manuscript file and renames it based on its metadata.
+Requires [`PyPDF2`](https://pypi.org/project/PyPDF2/).
 ```zsh
-pdfname file.pdf [search_string]
+pdfname file.pdf ["paper title"]
 ```
 This renames the file to `ABC2000PaperTitle.pdf`, if the paper has 3 authors whose last names start with A, B, C, the publishing year is 2000 and the paper title starts with "Paper title".
 An optional search string can be provided to help the tool find the metadata.
