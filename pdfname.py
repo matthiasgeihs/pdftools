@@ -98,7 +98,7 @@ def name_pdf(fn: str, search_string: str | None = None):
     
     info = find_info(search_string)
     if info == None:
-        print("Could not find metadata for PDF. Exiting.")
+        print("Could not find metadata for PDF. Try supplying a search string.")
         exit(1)
     
     title = make_file_title(info)
