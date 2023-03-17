@@ -101,7 +101,7 @@ def name_pdf(fn: str, search_string: str | None = None):
     title = make_file_title(info)
     base_path = path.dirname(fn)
     new_fn = path.join(base_path, title + ".pdf")
-    print(f'Renaming "${fn}" to "${new_fn}"...')
+    print(f'Renaming "{fn}" to "{new_fn}"...')
     rename(fn, new_fn)
     print("Done.")
 
