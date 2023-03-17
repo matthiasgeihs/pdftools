@@ -67,6 +67,8 @@ def find_info(search_string: str) -> ManuscriptInfo | None:
 def make_file_title(info: ManuscriptInfo) -> str:
     # flln ~ first letter of last name.
     def flln(author: str) -> str:
+        # Remove trailing author index.
+        author = author.rstrip(" 0123456789")
         last_name = author.split(" ")[-1]
         return last_name[0].capitalize()
     
