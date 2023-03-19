@@ -35,6 +35,7 @@ def find_info(search_string: str) -> ManuscriptInfo | None:
     qry = qry.replace('-', '+')
 
     # Query dblp and parse results. Assume first result is correct.
+    qry = urllib.parse.quote_plus(qry)
     contents = urllib.request.urlopen(f"https://dblp.org/search/publ/api?q={qry}").read()
     root = ET.fromstring(contents)
     hits = root.find("hits")
