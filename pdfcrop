@@ -29,18 +29,15 @@ NEW_HEIGHT=`expr "(" $BBOX[4] - $OFFSET_Y + $PADDING_Y ")" "*" 10`
 echo "Offset: $OFFSET_X $OFFSET_Y"
 echo "New size: $NEW_WIDTH $NEW_HEIGHT"
 
-# Exit if OFFSET_X < 0 or OFFSET_Y < 0.
-if [ $OFFSET_X -lt 0 -o $OFFSET_Y -lt 0 ]; then
-  echo "ERROR: Offset must be positive."
-  exit 1
-fi
+NEG_OFFSET_X=`expr 0 - $OFFSET_X`
+NEG_OFFSET_Y=`expr 0 - $OFFSET_Y`
 
 # Crop PDF
 gs \
   -o "$OUT_FILE" \
   -sDEVICE=pdfwrite \
   -g"$NEW_WIDTH"x"$NEW_HEIGHT" \
-  -c "<</PageOffset [-$OFFSET_X -$OFFSET_Y]>> setpagedevice" \
+  -c "<</PageOffset [$NEG_OFFSET_X $NEG_OFFSET_Y]>> setpagedevice" \
   -f "$IN_FILE"
 
 echo "Output written to '$OUT_FILE'."
