@@ -23,21 +23,24 @@ echo "BBOX: $BBOX"
 # Compute offset and new size
 OFFSET_X=`expr $BBOX[1] - $PADDING_X`
 OFFSET_Y=`expr $BBOX[2] - $PADDING_Y`
-NEW_WIDTH=`expr "(" $BBOX[3] - $OFFSET_X + $PADDING_X ")" "*" 10`
-NEW_HEIGHT=`expr "(" $BBOX[4] - $OFFSET_Y + $PADDING_Y ")" "*" 10`
+NEW_WIDTH=`expr $BBOX[3] - $OFFSET_X + $PADDING_X`
+NEW_HEIGHT=`expr $BBOX[4] - $OFFSET_Y + $PADDING_Y`
 
 echo "Offset: $OFFSET_X $OFFSET_Y"
 echo "New size: $NEW_WIDTH $NEW_HEIGHT"
 
-NEG_OFFSET_X=`expr 0 - $OFFSET_X`
-NEG_OFFSET_Y=`expr 0 - $OFFSET_Y`
+# Translate parameters for `pdfwrite`
+OFFSET_X=`expr 0 - $OFFSET_X`
+OFFSET_Y=`expr 0 - $OFFSET_Y`
+NEW_WIDTH=`expr $NEW_WIDTH \* 10`
+NEW_HEIGHT=`expr $NEW_HEIGHT \* 10`
 
 # Crop PDF
 gs \
   -o "$OUT_FILE" \
   -sDEVICE=pdfwrite \
   -g"$NEW_WIDTH"x"$NEW_HEIGHT" \
-  -c "<</PageOffset [$NEG_OFFSET_X $NEG_OFFSET_Y]>> setpagedevice" \
+  -c "<</PageOffset [$OFFSET_X $OFFSET_Y]>> setpagedevice" \
   -f "$IN_FILE"
 
 echo "Output written to '$OUT_FILE'."
