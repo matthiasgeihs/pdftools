@@ -9,7 +9,7 @@ Requires [`ghostscript`](https://ghostscript.com).
 ```zsh
 pdfcrop file.pdf
 ```
-This outputs `file_cropped.pdf`.
+This outputs the cropped PDF at `file.pdf` and moves the original to `file_original.pdf`.
 
 ## pdfname
 `pdfname` reads a research manuscript file and renames it based on its metadata.

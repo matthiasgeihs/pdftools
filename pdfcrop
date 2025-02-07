@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 
 IN_FILE="$1"
-OUT_FILE="${IN_FILE%.pdf}_cropped.pdf"
+TMP_FILE="${IN_FILE%.pdf}_cropped.pdf"
+BACKUP_FILE="${IN_FILE%.pdf}_original.pdf"
 PADDING_X=10
 PADDING_Y=10
 
@@ -37,10 +38,14 @@ NEW_HEIGHT=`expr $NEW_HEIGHT \* 10`
 
 # Crop PDF
 gs \
-  -o "$OUT_FILE" \
+  -o "$TMP_FILE" \
   -sDEVICE=pdfwrite \
   -g"$NEW_WIDTH"x"$NEW_HEIGHT" \
   -c "<</PageOffset [$OFFSET_X $OFFSET_Y]>> setpagedevice" \
   -f "$IN_FILE"
 
-echo "Output written to '$OUT_FILE'."
+# Move original and replace with cropped file.
+mv "$IN_FILE" "${IN_FILE%.pdf}_original.pdf"
+mv "$TMP_FILE" "$IN_FILE"
+
+echo "Output written to '$IN_FILE'."
